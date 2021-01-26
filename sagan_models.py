@@ -132,7 +132,7 @@ class Self_Attn_ylg(nn.Module):
         self.maxpool = nn.MaxPool2d(2, stride=2, padding=0)
         self.softmax = nn.Softmax(dim=-1)
         self.sigma = nn.Parameter(torch.zeros(1))
-        self.masks = get_grid_masks((16, 16), (8, 8))
+        self.masks = get_grid_masks((32, 32), (16, 16))
 
     def forward(self, x):
         """
