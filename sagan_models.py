@@ -119,7 +119,7 @@ class Self_Attn_ylg(nn.Module):
     """ Self attention Layer"""
 
     def __init__(self, in_channels):
-        super(Self_Attn, self).__init__()
+        super(Self_Attn_ylg, self).__init__()
         self.in_channels = in_channels
         self.snconv1x1_theta = snconv2d(
             in_channels=in_channels, out_channels=in_channels//8, kernel_size=1, stride=1, padding=0)
