@@ -151,7 +151,7 @@ class Self_Attn_ylg(nn.Module):
         phi = self.maxpool(phi)
         phi = phi.view(-1, 8, ch//(8*8), h*w//4)
         # Attn map
-	attn1 = torch,einsum('bijk,bijl->bikl',theta,phi)
+		attn1 = torch,einsum('bijk,bijl->bikl',theta,phi)
         # attn1 = torch.bmm(theta.permute(0, 2, 1), phi)
         # mask = []
         addr = (1.0-self.masks)*(-1000.0)
@@ -162,7 +162,7 @@ class Self_Attn_ylg(nn.Module):
         g = self.maxpool(g1)
         g = g.view(-1, 8,ch//2//8, h*w//4)
         # Attn_g
-	attn_g1=torch.einsum('bijk,bilk->bijl',g,attn)
+		attn_g1=torch.einsum('bijk,bilk->bijl',g,attn)
         # attn_g1 = torch.bmm(g, attn.permute(0, 2, 1))
         attn_g = attn_g1.view(-1, ch//2, h, w)
         attn_g = self.snconv1x1_attn(attn_g)
