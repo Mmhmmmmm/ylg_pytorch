@@ -132,7 +132,7 @@ class Self_Attn_ylg(nn.Module):
         self.maxpool = nn.MaxPool2d(2, stride=2, padding=0)
         self.softmax = nn.Softmax(dim=-1)
         self.sigma = nn.Parameter(torch.zeros(1))
-        self.masks = get_grid_masks((16, 16), (8, 8))
+        self.masks = get_grid_masks((32, 32), (16, 16))
 
     def forward(self, x):
         """
@@ -150,8 +150,8 @@ class Self_Attn_ylg(nn.Module):
         phi = self.snconv1x1_phi(x)
         phi = self.maxpool(phi)
         phi = phi.view(-1, 8, ch//(8*8), h*w//4)
-        # Attn map
-		attn1 = torch,einsum('bijk,bijl->bikl',theta,phi)
+        # Attn ma
+	attn1 = torch.einsum('bijk,bijl->bikl',theta,phi)
         # attn1 = torch.bmm(theta.permute(0, 2, 1), phi)
         # mask = []
         addr = (1.0-self.masks)*(-1000.0)
@@ -162,7 +162,7 @@ class Self_Attn_ylg(nn.Module):
         g = self.maxpool(g1)
         g = g.view(-1, 8,ch//2//8, h*w//4)
         # Attn_g
-		attn_g1=torch.einsum('bijk,bilk->bijl',g,attn)
+	attn_g1=torch.einsum('bijk,bilk->bijl',g,attn)
         # attn_g1 = torch.bmm(g, attn.permute(0, 2, 1))
         attn_g = attn_g1.view(-1, ch//2, h, w)
         attn_g = self.snconv1x1_attn(attn_g)
@@ -240,7 +240,7 @@ class Generator(nn.Module):
         self.block2 = GenBlock(g_conv_dim*16, g_conv_dim *
                                8, num_classes)  # 512 16*16
         # self.block3 = GenBlock(g_conv_dim*8, g_conv_dim*4, num_classes) # 256 32*32
-        self.self_attn = Self_Attn(g_conv_dim*4)
+        self.self_attn = Self_Attn_ylg(g_conv_dim*4)
         self.block4 = GenBlock(g_conv_dim*8, g_conv_dim*4, num_classes)  # 128
         # self.block5 = GenBlock(g_conv_dim*2, g_conv_dim, num_classes)  # 64
         self.bn = nn.BatchNorm2d(
