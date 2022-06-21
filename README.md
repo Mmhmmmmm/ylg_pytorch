@@ -11,7 +11,13 @@ different:
 ## Prerequisites Check `requirements.txt`. 
 
   * [Python 3.5+](https://www.continuum.io/downloads)
-  * [PyTorch 0.4.1](http://pytorch.org/) ## Training #### 1. Check `parameters.py` for all arguments and their default values #### 2. Train on custom images in folder a/b/c:
+  * [PyTorch 0.4.1](http://pytorch.org/) 
+   
+## Training 
+
+#### 1. Check `parameters.py` for all arguments and their default values 
+
+#### 2. Train on custom images in folder a/b/c:
  
 ```bash
 $ python train.py --data_path 'a/b/c' --save_path 'o/p/q' --batch_size 64 --name sagan
